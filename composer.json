@@ -1,0 +1,14 @@
+{
+    "name": "muramoya/devtools",
+    "description": "Several Devtools",
+    "type": "library",
+    "require": {
+        "monolog/monolog": "^1.23"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "muramoya"
+        }
+    ]
+}
