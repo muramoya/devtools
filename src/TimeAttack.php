@@ -19,16 +19,16 @@ class TimeAttack
 
 	public function __construct($name = null, $logPath = '/tmp/timeattack.log')
 	{
-		$output = "[%datetime%] %message%\n";
+		$output = "[%datetime%] [%channel%] %message%\n";
 		$format = new LineFormatter($output);
 		$stream = new StreamHandler($logPath, Logger::INFO);
 		$stream->setFormatter($format);
-		$this->logger = new Logger($name, $stream);
+		$this->logger = new Logger($name);
+		$this->logger->pushHandler($stream);
 	}
 
 	public function start($showSection = false)
 	{
-		$this->init();
 		if($showSection) $this->isShowSectionTime = true;
 		$this->start = microtime(true);
 		$this->splitTimeFrom = microtime(true);
@@ -40,15 +40,15 @@ class TimeAttack
 		$start = $this->start;
 		$this->splitTimeTo = microtime(true);
 		$res = round($this->splitTimeTo - $start, 2);
-		$ret = 'Temporary time ' . $res . ' sec';
+		$ret = 'Temporary time: ' . $res . ' sec';
 		if($label)
 		{
-			$ret = $label . $ret;
+			$ret = '[' . $label . '] ' . $ret;
 		}
 		if($this->isShowSectionTime)
 		{
 			$sectionTime = round($this->splitTimeTo - $this->splitTimeFrom, 2);
-			$ret .= "\n" . 'Section Time: ' . $sectionTime . ' sec';
+			$ret .= '  Section Time: ' . $sectionTime . ' sec';
 			$this->splitTimeFrom = microtime(true);
 		}
 		$this->output($ret);
@@ -58,7 +58,8 @@ class TimeAttack
 	{
 		$this->finish = microtime(true);
 		$ret = 'Result ' . $this->result() . ' sec' . "\n";
-		$ret .= 'Finish';
+		$this->output($ret);
+		$ret = 'Finish';
 		$this->output($ret);
 	}
 
