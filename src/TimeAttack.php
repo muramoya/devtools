@@ -1,5 +1,5 @@
 <?php
-namespace DevTools;
+namespace muramoya\DevTools;
 
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
