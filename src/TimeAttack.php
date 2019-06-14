@@ -134,7 +134,7 @@ class TimeAttack
             self::$logger->$method($val);
         }
 
-	    return $val;
+	    return $val . "\n";
 	}
 
 	private static function result(): float
